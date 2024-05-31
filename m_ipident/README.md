@@ -6,7 +6,7 @@
 ```
  ./unrealircd gencloak
 ```
-### ADD to unrealircd.conf
+### ADD to unrealircd.conf max of 5 keys
 ```
 cloak-ident-keys {
     key "yY90gBRfJMSqN45WSLM9ttPQB57cVJbTN3nkDi5ZwGtXwn4pZ9JcJFGNwtJX82W8mBBXzJxUXPxwkMNJaP9fXcrxz7ApihCBp3YUt2TSAWp4TFTRfmQBAvHCc";
