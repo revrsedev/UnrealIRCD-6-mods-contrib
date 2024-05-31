@@ -12,7 +12,7 @@ module
     post-install-text {
         "The module is installed, now all you need to do is add a 'loadmodule' line to your config file:";
         "loadmodule \"third/m_ipident\";";
-        "Then /rehash the IRCd.";
+        "Add the cloak-ident-keys entry to your config file";
         "Then /rehash the IRCd.";
         "For usage information, refer to the module's documentation found at: https://github.com/revrsedev/unrealircd-mods-contrib/blob/main/m_ipident/README.md";
     }
