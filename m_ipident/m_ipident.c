@@ -6,15 +6,16 @@
 /*** <<<MODULE MANAGER START>>>
 module
 {
-		documentation "https://github.com/revrsedev/unrealircd-mods-contrib/blob/main/m_ipident/README.md";
-		troubleshooting "In case of problems, documentation or e-mail me at mike.chevronnet@gmail.com";
-		min-unrealircd-version "6.*";
-		max-unrealircd-version "6.*";
-		post-install-text {
-				"The module is installed. Now all you need to do is add a loadmodule line:";
-				"loadmodule \"third/m_ipident\";";
-				"And /REHASH the IRCd.";
-		}
+    documentation "https://github.com/revrsedev/unrealircd-mods-contrib/blob/main/m_ipident/README.md";
+    troubleshooting "In case of problems, documentation or e-mail me at mike.chevronnet@gmail.com";
+    min-unrealircd-version "6.*";
+    post-install-text {
+        "The module is installed, now all you need to do is add a 'loadmodule' line to your config file:";
+        "loadmodule \"third/m_ipident\";";
+        "Then /rehash the IRCd.";
+        "Then /rehash the IRCd.";
+        "For usage information, refer to the module's documentation found at: https://github.com/revrsedev/unrealircd-mods-contrib/blob/main/m_ipident/README.md";
+    }
 }
 *** <<<MODULE MANAGER END>>>
 */
@@ -22,22 +23,17 @@ module
 #include "unrealircd.h"
 #include <openssl/sha.h>
 
-#define MYCONF "cloak-keys"
+// Config block
+#define MYCONF "cloak-ident-keys"
 #define MAX_CLOAK_KEYS 5
 
-ModuleHeader MOD_HEADER = {
-    "third/m_ipident", 
-    "1.0.1",
-    "Generate ident based on ipv4, ipv6 + cloak-key config block.", 
-    "reverse",               
-    "unrealircd-6",        
-};
-
 // Configuration structure to hold the cloak keys
-struct {
+typedef struct {
     char *keys[MAX_CLOAK_KEYS];
     int key_count;
-} cloak_config;
+} CloakConfig;
+
+CloakConfig cloak_config;
 
 // Function declarations
 void setcfg(void);
@@ -46,21 +42,42 @@ int m_ipident_configtest(ConfigFile *cf, ConfigEntry *ce, int type, int *errs);
 int m_ipident_configrun(ConfigFile *cf, ConfigEntry *ce, int type);
 int set_crypto_ip_based_ident(Client *client);
 
-// Module initialization
-MOD_INIT() {
-    HookAdd(modinfo->handle, HOOKTYPE_LOCAL_CONNECT, 0, set_crypto_ip_based_ident);
+// Dat dere module header
+ModuleHeader MOD_HEADER = {
+    "third/m_ipident", // Module name
+    "1.0.1", // Version
+    "Generate ident based on ipv4 and ipv6 + user-defined config cloak-ident-keys", // Description
+    "reverse", // Author
+    "unrealircd-6", // Modversion
+};
+
+// Configuration testing-related hooks go in the testing phase
+MOD_TEST() {
+    memset(&cloak_config, 0, sizeof(cloak_config)); // Zero-initialise config
+
+    // We have our own config block so we need to check config
     HookAdd(modinfo->handle, HOOKTYPE_CONFIGTEST, 0, m_ipident_configtest);
+    return MOD_SUCCESS;
+}
+
+// Initialisation routine (register hooks, commands and modes or create structs etc)
+MOD_INIT() {
+    MARK_AS_GLOBAL_MODULE(modinfo);
+
+    setcfg();
     HookAdd(modinfo->handle, HOOKTYPE_CONFIGRUN, 0, m_ipident_configrun);
+    HookAdd(modinfo->handle, HOOKTYPE_LOCAL_CONNECT, 0, set_crypto_ip_based_ident);
     return MOD_SUCCESS;
 }
 
 MOD_LOAD() {
-    return MOD_SUCCESS;
+    return MOD_SUCCESS; // We good
 }
 
+// Called on unload/rehash
 MOD_UNLOAD() {
     freecfg();
-    return MOD_SUCCESS;
+    return MOD_SUCCESS; // We good
 }
 
 // Set config defaults
@@ -91,7 +108,7 @@ int m_ipident_configtest(ConfigFile *cf, ConfigEntry *ce, int type, int *errs) {
         return 0;
 
     for (cep = ce->items; cep; cep = cep->next) {
-        if (!cep->name || !cep->value) {
+        if (!cep->value) {
             config_error("%s:%i: invalid %s entry", cep->file->filename, cep->line_number, MYCONF);
             errors++;
             continue;
@@ -102,6 +119,9 @@ int m_ipident_configtest(ConfigFile *cf, ConfigEntry *ce, int type, int *errs) {
             errors++;
             break;
         }
+
+        // Valid key, increment key count
+        cloak_config.key_count++;
     }
 
     *errs = errors;
@@ -139,13 +159,12 @@ int m_ipident_configrun(ConfigFile *cf, ConfigEntry *ce, int type) {
 
 // Function to determine if the IP address is IPv6
 static int is_ipv6_address(const char *ip) {
-    return strchr(ip, ':') != NULL;  
+    return strchr(ip, ':') != NULL;
 }
 
-// Set ident based on SHA-256 hash of IP and user-defined cloak key
 int set_crypto_ip_based_ident(Client *client) {
     if (!client->ip || !client->user) {
-        return HOOK_CONTINUE; 
+        return HOOK_CONTINUE;
     }
 
     if (cloak_config.key_count == 0) {
@@ -156,17 +175,14 @@ int set_crypto_ip_based_ident(Client *client) {
     unsigned char hash[SHA256_DIGEST_LENGTH];
     char ident[10];
 
-    // Compute SHA-256 hash of the IP address
+    
     SHA256((unsigned char*)client->ip, strlen(client->ip), hash);
 
     // Select a cloak key
     const char *cloak_key = cloak_config.keys[rand() % cloak_config.key_count];
-
-    // Combine the hash and the cloak key
     char combined_hash[SHA256_DIGEST_LENGTH + 64 + 1];
     snprintf(combined_hash, sizeof(combined_hash), "%s%s", client->ip, cloak_key);
 
-    // Generate ident from the combined hash
     for (int i = 0; i < 9; ++i) {
         unsigned char byte = combined_hash[i % (SHA256_DIGEST_LENGTH + 64)];
         if (i < 6) {
