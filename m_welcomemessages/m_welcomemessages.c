@@ -1,3 +1,25 @@
+/*
+  Licence: GPLv3 or later
+  Copyright Ⓒ 2024 Jean Chevronnet
+  
+*/
+/*** <<<MODULE MANAGER START>>>
+module
+{
+    documentation "https://github.com/revrsedev/UnrealIRCD-6-mods-contrib/blob/main/m_welcomemessages/README.md";
+    troubleshooting "In case of problems, documentation or e-mail me at mike.chevronnet@gmail.com";
+    min-unrealircd-version "6.*";
+    post-install-text {
+        "The module is installed, now all you need to do is add a 'loadmodule' line to your config file:";
+        "loadmodule \"third/m_ipident\";";
+        "Add channel and custom messages to your config file";
+        "Then /rehash the IRCd.";
+        "For usage information, refer to the module's documentation found at: https://github.com/revrsedev/UnrealIRCD-6-mods-contrib/blob/main/m_welcomemessages/README.md";
+    }
+}
+*** <<<MODULE MANAGER END>>>
+*/
+
 #include "unrealircd.h"
 #define MYCONF "channel-welcome"
 #define MAX_WELCOME_MSG 512 // Define the maximum length for the welcome message
