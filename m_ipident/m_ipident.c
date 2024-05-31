@@ -6,7 +6,7 @@
 /*** <<<MODULE MANAGER START>>>
 module
 {
-		documentation "https://github.com/rainfr/musk-unrealircd-6-contrib/blob/main/m_ipident/README.md";
+		documentation "https://github.com/revrsedev/unrealircd-mods-contrib/blob/main/m_ipident/README.md";
 		troubleshooting "In case of problems, documentation or e-mail me at mike.chevronnet@gmail.com";
 		min-unrealircd-version "6.*";
 		max-unrealircd-version "6.*";
