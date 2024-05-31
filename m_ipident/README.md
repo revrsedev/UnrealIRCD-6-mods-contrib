@@ -1,7 +1,12 @@
 # IPDENT
 ### Change the ident of the user based on their ips+hash and user-defined cloak key in config.
 
-### ADD THIS TO YOUR unrealircd.conf
+### GENERATE CLOAK KEYS WITH
+
+```
+ ./unrealircd gencloak
+```
+### ADD to unrealircd.conf
 ```
 cloak-ident-keys {
     key "yY90gBRfJMSqN45WSLM9ttPQB57cVJbTN3nkDi5ZwGtXwn4pZ9JcJFGNwtJX82W8mBBXzJxUXPxwkMNJaP9fXcrxz7ApihCBp3YUt2TSAWp4TFTRfmQBAvHCc";
@@ -10,3 +15,5 @@ cloak-ident-keys {
 };
 
 ```
+
+## DO NOT USE THIS ONES
