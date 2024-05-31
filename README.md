@@ -1,1 +1,2 @@
-#coming soon.
+# UNREALIRCD 6 MODULES MADE BY ME
+### USE AT YOUR OWN RISK
