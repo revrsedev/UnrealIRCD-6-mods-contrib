@@ -17,3 +17,7 @@ cloak-ident-keys {
 ```
 
 ## DO NOT USE THIS ONES
+
+## THANKS TO GOTTEM'S TEMPLATES
+
+https://gitgud.malvager.net/Wazakindjes/unrealircd_mods/src/branch/master/templates/conf.c
