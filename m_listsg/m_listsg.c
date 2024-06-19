@@ -6,14 +6,14 @@
 /*** <<<MODULE MANAGER START>>>
 module
 {
-    documentation "https://github.com/revrsedev/unrealircd-mods-contrib/blob/main/m_listsg/README.md";
+    documentation "https://github.com/revrsedev/UnrealIRCD-6-mods-contrib/blob/main/m_listsg/README.md";
     troubleshooting "In case of problems, documentation or e-mail me at mike.chevronnet@gmail.com";
     min-unrealircd-version "6.*";
     post-install-text {
         "The module is installed, now all you need to do is add a 'loadmodule' line to your config file:";
         "loadmodule \"third/m_listsg\";";
         "Then /rehash the IRCd.";
-        "For usage information, refer to the module's documentation found at: https://github.com/revrsedev/unrealircd-mods-contrib/blob/main/m_listsg/README.md";
+        "For usage information, refer to the module's documentation found at: https://github.com/revrsedev/UnrealIRCD-6-mods-contrib/blob/main/m_listsg/README.md";
     }
 }
 *** <<<MODULE MANAGER END>>>
