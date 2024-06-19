@@ -4,7 +4,7 @@
 ## Usage
 
 ```
- /SG reverse
+ /SG-user reverse
 ```
 
 09:21:28 -server- Security groups for user reverse:<br>
@@ -24,4 +24,5 @@ https://gitgud.malvager.net/Wazakindjes/unrealircd_mods/src/branch/master/templa
 
 
 Come and say hi at:<br>
-irc.tchatzone.fr #dev
+Server: irc.tchatzone.fr:+6697<br> 
+Channel: #dev

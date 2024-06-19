@@ -22,10 +22,12 @@ module
 #include "unrealircd.h"
 
 #define MSG_SG "SG"
+#define MSG_SG_USER "SG-user"
 #define MAX_BUFFER_SIZE 512
 #define MAX_NICKNAMES_PER_LINE 10
 
 CMD_FUNC(cmd_sg);
+CMD_FUNC(cmd_sg_user);
 
 // Forward declarations
 void list_security_groups_for_user(Client *client, Client *user);
@@ -34,13 +36,14 @@ void list_members_of_security_group(Client *client, const char *groupname);
 ModuleHeader MOD_HEADER = {
     "third/m_listsg",   // Module name
     "1.0",              // Version
-    "Command /SG to list security groups and their members", // Description
+    "Commands /SG and /SG-user to list security groups and their members", // Description
     "reverse",          // Author
     "unrealircd-6",     // UnrealIRCd version
 };
 
 MOD_INIT() {
-    CommandAdd(modinfo->handle, MSG_SG, cmd_sg, 1, CMD_USER); // Adding the command
+    CommandAdd(modinfo->handle, MSG_SG, cmd_sg, 1, CMD_USER); // Adding the command for groups
+    CommandAdd(modinfo->handle, MSG_SG_USER, cmd_sg_user, 1, CMD_USER); // Adding the command for user security groups
     return MOD_SUCCESS;
 }
 
@@ -52,18 +55,30 @@ MOD_UNLOAD() {
     return MOD_SUCCESS;
 }
 
+// Command function for /SG (lists members of a security group)
 CMD_FUNC(cmd_sg) {
     if (parc < 2) {
-        sendnotice(client, "Usage: /SG <nickname|groupname>");
+        sendnotice(client, "Usage: /SG <groupname>");
         return;
     }
 
-    const char *arg = parv[1];
-    Client *target_user = find_client(arg, NULL);
+    const char *groupname = parv[1];
+    list_members_of_security_group(client, groupname);
+}
+
+// Command function for /SG-user (lists security groups for a user)
+CMD_FUNC(cmd_sg_user) {
+    if (parc < 2) {
+        sendnotice(client, "Usage: /SG-user <nickname>");
+        return;
+    }
+
+    const char *nickname = parv[1];
+    Client *target_user = find_client(nickname, NULL);
     if (target_user) {
         list_security_groups_for_user(client, target_user);
     } else {
-        list_members_of_security_group(client, arg);
+        sendnotice(client, "No such nickname: %s", nickname);
     }
 }
 
