@@ -21,3 +21,7 @@
 ## THANKS TO GOTTEM'S TEMPLATES
 
 https://gitgud.malvager.net/Wazakindjes/unrealircd_mods/src/branch/master/templates/newcmd.c
+
+
+Come and say hi at:<br>
+irc.tchatzone.fr #dev
