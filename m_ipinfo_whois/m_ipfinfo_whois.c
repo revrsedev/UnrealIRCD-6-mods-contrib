@@ -19,6 +19,7 @@ module
 }
 *** <<<MODULE MANAGER END>>>
 */
+
 #include "unrealircd.h"
 #include <curl/curl.h>
 #include <jansson.h>
@@ -46,7 +47,7 @@ time_t cache_duration = 86400; // 24 hours
 ModuleHeader MOD_HEADER = {
     "third/m_ipinfo_whois",
     "1.0.0",
-    "Show IPinfo.io information in /WHOIS",
+    "Show IPinfo.io information in WHOIS",
     "reverse",
     "unrealircd-6",
 };
@@ -55,6 +56,7 @@ int ipinfo_whois_configtest(ConfigFile *cf, ConfigEntry *ce, int type, int *errs
 int ipinfo_whois_configposttest(int *errs);
 int ipinfo_whois_configrun(ConfigFile *cf, ConfigEntry *ce, int type);
 int ipinfo_whois_whois(Client *requester, Client *acptr, NameValuePrioList **list);
+void free_cache();
 
 MOD_TEST() {
     memset(&muhcfg, 0, sizeof(muhcfg));
@@ -76,6 +78,7 @@ MOD_LOAD() {
 
 MOD_UNLOAD() {
     safe_free(muhcfg.apikey);
+    free_cache();
     return MOD_SUCCESS;
 }
 
@@ -197,8 +200,8 @@ void free_cache() {
 }
 
 int ipinfo_whois_whois(Client *requester, Client *acptr, NameValuePrioList **list) {
-    if (!IsOper(requester)) {
-        return 0; // Only opers can see the IP info
+    if (!IsOper(requester) || IsULine(acptr) || IsServer(acptr)) {
+        return 0; // Only opers can see the IP info, and ignore service clients and servers
     }
 
     CacheEntry *cached = find_in_cache(acptr->ip);
