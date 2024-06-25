@@ -35,7 +35,7 @@ jobs:
     - name: Compile and Install Module
       run: |
         cd /home/runner/unrealircd
-        cp $GITHUB_WORKSPACE/m_ipinfo_whois.c src/modules/third/m_ipinfo_whois.c
+        cp $GITHUB_WORKSPACE/m_ipinfo_whois/m_ipinfo_whois.c src/modules/third/m_ipinfo_whois.c
         cd /home/runner/unrealircd
         make
         sudo make install
