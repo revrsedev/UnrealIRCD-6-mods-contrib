@@ -47,11 +47,11 @@ jobs:
 
     - name: Start UnrealIRCd
       run: |
-        /home/runner/unrealircd/bin/unrealircd start
+        /home/runner/unrealircd/bin/unrealircd configtest
 
-    - name: Run Tests
+    - name: Stop UnrealIRCd
       run: |
-        echo -e "NICK testuser\r\nUSER testuser 0 * :Test User\r\nWHOIS testuser\r\n" | nc localhost 6667
+        /home/runner/unrealircd/bin/unrealircd rehash
 
     - name: Stop UnrealIRCd
       run: |
