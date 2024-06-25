@@ -26,7 +26,7 @@ jobs:
       run: |
         wget https://www.unrealircd.org/downloads/unrealircd-latest.tar.gz
         tar zxvf unrealircd-latest.tar.gz
-        cd unrealircd-6.1.6
+        cd unrealircd-*
         ./Config -nointro
         make
         sudo make install
@@ -45,11 +45,11 @@ jobs:
         echo 'loadmodule "third/m_ipinfo_whois";' >> /home/runner/unrealircd/conf/unrealircd.conf
         echo 'ipinfo_whois { apikey "YOUR_API_KEY"; };' >> /home/runner/unrealircd/conf/unrealircd.conf
 
-    - name: Start UnrealIRCd
+    - name: Configtest UnrealIRCd
       run: |
         /home/runner/unrealircd/bin/unrealircd configtest
 
-    - name: Stop UnrealIRCd
+    - name: Rehash UnrealIRCd
       run: |
         /home/runner/unrealircd/bin/unrealircd rehash
 
