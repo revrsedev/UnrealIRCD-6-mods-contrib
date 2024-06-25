@@ -61,7 +61,6 @@ MOD_TEST() {
 // Initialisation routine (register hooks, commands and modes or create structs etc)
 MOD_INIT() {
 	MARK_AS_GLOBAL_MODULE(modinfo);
-
 	setcfg();
 	HookAdd(modinfo->handle, HOOKTYPE_CONFIGRUN, 0, m_channelwelcome_configrun);
 	HookAdd(modinfo->handle, HOOKTYPE_LOCAL_JOIN, 0, custom_join);

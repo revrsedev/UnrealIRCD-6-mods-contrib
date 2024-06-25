@@ -42,6 +42,7 @@ ModuleHeader MOD_HEADER = {
 };
 
 MOD_INIT() {
+    MARK_AS_GLOBAL_MODULE(modinfo);
     CommandAdd(modinfo->handle, MSG_SG, cmd_sg, 1, CMD_USER); // Adding the command for groups
     CommandAdd(modinfo->handle, MSG_SG_USER, cmd_sg_user, 1, CMD_USER); // Adding the command for user security groups
     return MOD_SUCCESS;
