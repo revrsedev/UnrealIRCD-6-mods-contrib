@@ -1,0 +1,56 @@
+name: Test UnrealIRCd Module
+
+on:
+  push:
+    branches:
+      - main
+      - 'feature/*'
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Install Dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential libcurl4-openssl-dev libjansson-dev pkg-config
+
+    - name: Download and Install UnrealIRCd
+      run: |
+        wget https://www.unrealircd.org/downloads/unrealircd-latest.tar.gz
+        tar zxvf unrealircd-latest.tar.gz
+        cd unrealircd-*
+        ./Config -nointro
+        make
+        sudo make install
+        sudo ln -s $(pwd) /home/runner/unrealircd
+        cd ..
+
+    - name: Compile Module
+      run: |
+        gcc -shared -fPIC -I/home/runner/unrealircd/include -o m_ipinfo_whois.so m_ipinfo_whois.c $(pkg-config --cflags libcurl jansson) $(pkg-config --libs libcurl jansson)
+
+    - name: Set up UnrealIRCd Configuration
+      run: |
+        echo 'loadmodule "third/m_ipinfo_whois";' >> /home/runner/unrealircd/conf/unrealircd.conf
+        echo 'ipinfo_whois { apikey "YOUR_API_KEY"; };' >> /home/runner/unrealircd/conf/unrealircd.conf
+
+    - name: Start UnrealIRCd
+      run: |
+        /home/runner/unrealircd/bin/unrealircd start
+
+    - name: Run Tests
+      run: |
+        # Add your tests here. For example, you can use netcat to send IRC commands and check responses.
+        echo -e "NICK testuser\r\nUSER testuser 0 * :Test User\r\nWHOIS testuser\r\n" | nc localhost 6667
+
+    - name: Stop UnrealIRCd
+      run: |
+        /home/runner/unrealircd/bin/unrealircd stop
