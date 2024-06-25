@@ -26,7 +26,7 @@ jobs:
       run: |
         wget https://www.unrealircd.org/downloads/unrealircd-latest.tar.gz
         tar zxvf unrealircd-latest.tar.gz
-        cd unrealircd-*
+        cd unrealircd-6.1.6
         ./Config -nointro
         make
         sudo make install
