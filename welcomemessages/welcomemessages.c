@@ -6,15 +6,15 @@
 /*** <<<MODULE MANAGER START>>>
 module
 {
-    documentation "https://github.com/revrsedev/UnrealIRCD-6-mods-contrib/blob/main/m_welcomemessages/README.md";
+    documentation "https://github.com/revrsedev/UnrealIRCD-6-mods-contrib/blob/main/welcomemessages/README.md";
     troubleshooting "In case of problems, documentation or e-mail me at mike.chevronnet@gmail.com";
     min-unrealircd-version "6.*";
     post-install-text {
         "The module is installed, now all you need to do is add a 'loadmodule' line to your config file:";
-        "loadmodule \"third/m_ipident\";";
+        "loadmodule \"third/welcomemessages\";";
         "Add channel and custom messages to your config file";
         "Then /rehash the IRCd.";
-        "For usage information, refer to the module's documentation found at: https://github.com/revrsedev/UnrealIRCD-6-mods-contrib/blob/main/m_welcomemessages/README.md";
+        "For usage information, refer to the module's documentation found at: https://github.com/revrsedev/UnrealIRCD-6-mods-contrib/blob/main/welcomemessages/README.md";
     }
 }
 *** <<<MODULE MANAGER END>>>
@@ -44,7 +44,7 @@ int custom_join(Client *sptr, Channel *chptr, MessageTag *mtags);
 
 // Dat dere module header
 ModuleHeader MOD_HEADER = {
-	"third/channelwelcome", // Module name
+	"third/welcomemessages", // Module name
 	"1.0.1", // Version
 	"Sends custom welcome messages for different channels", // Description
 	"reverse", // Author
