@@ -1,7 +1,7 @@
 # IPINFO_WHOIS
 ### Show IPinfo.io information in /WHOIS - https://ipinfo.io/
 ### Info:
-
+### add libs required on Ubuntu/Debian you need to 'apt install uthash-dev' (caches usage)
 # This module cache's the ip information of the user for 24hs so you're server don't get rate limited or in bigs networks bottleneck's network I/O and processing time for each request.
 
 ```
