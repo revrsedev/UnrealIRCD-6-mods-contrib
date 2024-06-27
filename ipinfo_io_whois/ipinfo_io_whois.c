@@ -6,7 +6,7 @@
 /*** <<<MODULE MANAGER START>>>
 module
 {
-    documentation "https://github.com/revrsedev/UnrealIRCD-6-mods-contrib/blob/main/ipinfo_io_whois.c/README.md";
+    documentation "https://github.com/revrsedev/UnrealIRCD-6-mods-contrib/blob/main/ipinfo_io_whois/README.md";
     troubleshooting "In case of problems, documentation or e-mail me at mike.chevronnet@gmail.com";
     min-unrealircd-version "6.*";
     post-install-text {
@@ -14,7 +14,7 @@ module
         "loadmodule \"third/ipinfo_io_whois.\";";
         "Add the TOKEN from info.io to the block ipinfo_whois in you're config file";
         "Then /rehash the IRCd.";
-        "For usage information, refer to the module's documentation found at: https://github.com/revrsedev/UnrealIRCD-6-mods-contrib/blob/main/ipinfo_io_whois.c/README.md";
+        "For usage information, refer to the module's documentation found at: https://github.com/revrsedev/UnrealIRCD-6-mods-contrib/blob/main/ipinfo_io_whois/README.md";
     }
 }
 *** <<<MODULE MANAGER END>>>
