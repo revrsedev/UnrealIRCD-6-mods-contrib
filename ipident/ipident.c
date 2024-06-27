@@ -6,15 +6,15 @@
 /*** <<<MODULE MANAGER START>>>
 module
 {
-    documentation "https://github.com/revrsedev/unrealircd-mods-contrib/blob/main/m_ipident/README.md";
+    documentation "https://github.com/revrsedev/unrealircd-mods-contrib/blob/main/ipident/README.md";
     troubleshooting "In case of problems, documentation or e-mail me at mike.chevronnet@gmail.com";
     min-unrealircd-version "6.*";
     post-install-text {
         "The module is installed, now all you need to do is add a 'loadmodule' line to your config file:";
-        "loadmodule \"third/m_ipident\";";
+        "loadmodule \"third/ipident\";";
         "Add the cloak-ident-keys entry to your config file";
         "Then /rehash the IRCd.";
-        "For usage information, refer to the module's documentation found at: https://github.com/revrsedev/unrealircd-mods-contrib/blob/main/m_ipident/README.md";
+        "For usage information, refer to the module's documentation found at: https://github.com/revrsedev/unrealircd-mods-contrib/blob/main/ipident/README.md";
     }
 }
 *** <<<MODULE MANAGER END>>>
