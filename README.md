@@ -2,5 +2,6 @@
 ### USE AT YOUR OWN RISK
 
 # Come and say hi at:<br>
-Server: irc.tchatzone.fr<br>
-Channel: #dev
+Servers: irc.tchatzone.fr, irc.redlatina.chat<br>
+Channel, Canal: #dev<br>
+Support language: French, Spanish and English.
